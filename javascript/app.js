@@ -46,6 +46,18 @@ tabs.forEach(tab => {
 // 검색 실행
 function doSearch() {
     const query = searchInput.value.trim();
+
+    // URL 업데이트
+    const url = new URL(window.location);
+    if (query) {
+        url.searchParams.set('q', query);
+        url.searchParams.set('dict', currentDict);
+    } else {
+        url.searchParams.delete('q');
+        url.searchParams.delete('dict');
+    }
+    window.history.replaceState({}, '', url);
+
     if (!query) {
         showStatus('📖', '검색어를 입력하세요');
         return;
@@ -117,8 +129,31 @@ document.querySelector('.dict-close').addEventListener('click', () => {
     showStatus('📖', '검색어를 입력하세요');
 });
 
-// 페이지 로드 시 입력창 포커스
-searchInput.focus();
+// URL 파라미터에서 초기 상태 로드
+const urlParams = new URLSearchParams(window.location.search);
+const initialDict = urlParams.get('dict');
+const initialQuery = urlParams.get('q');
+
+if (initialDict && DICT_LABELS[initialDict]) {
+    currentDict = initialDict;
+    tabs.forEach(t => {
+        if (t.dataset.dict === currentDict) {
+            t.classList.add('active');
+        } else {
+            t.classList.remove('active');
+        }
+    });
+    headerTitle.textContent = DICT_LABELS[currentDict];
+}
+
+if (initialQuery) {
+    searchInput.value = initialQuery;
+    updateClearBtn();
+    doSearch();
+} else {
+    // 페이지 로드 시 입력창 포커스 (초기 검색어가 없을 때만)
+    searchInput.focus();
+}
 
 // ===== 테마 토글 =====
 const themeToggle = document.getElementById('theme-toggle');
