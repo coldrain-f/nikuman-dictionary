@@ -23,6 +23,8 @@ searchInput.addEventListener('input', updateClearBtn);
 clearBtn.addEventListener('click', () => {
     searchInput.value = '';
     updateClearBtn();
+    headerCount.textContent = '';
+    showStatus('📖', '검색어를 입력하세요');
     searchInput.focus();
 });
 
@@ -117,3 +119,30 @@ document.querySelector('.dict-close').addEventListener('click', () => {
 
 // 페이지 로드 시 입력창 포커스
 searchInput.focus();
+
+// ===== 테마 토글 =====
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+    } else {
+        html.removeAttribute('data-theme');
+    }
+}
+
+// 초기 테마: localStorage > 시스템 설정
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    applyTheme(savedTheme);
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    applyTheme('dark');
+}
+
+themeToggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    applyTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+});

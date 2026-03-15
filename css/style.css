@@ -65,24 +65,22 @@
 }
 
 /* ===== CSS 변수 — 다크 모드 ===== */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #111318;
-        --bg-elevated: #1a1d24;
-        --card-bg: #1e2128;
-        --card-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 2px 12px rgba(0,0,0,0.2);
-        --card-shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
-        --border: #2a2e37;
-        --border-light: #252830;
-        --text-primary: #e8eaed;
-        --text-secondary: #9aa0ab;
-        --text-muted: #6b7280;
-        --accent: #6b83f2;
-        --accent-hover: #5a72e0;
-        --accent-light: rgba(107, 131, 242, 0.12);
-        --accent-glow: rgba(107, 131, 242, 0.3);
-        --search-bg: #1e2128;
-    }
+[data-theme='dark'] {
+    --bg: #111318;
+    --bg-elevated: #1a1d24;
+    --card-bg: #1e2128;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 2px 12px rgba(0,0,0,0.2);
+    --card-shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
+    --border: #2a2e37;
+    --border-light: #252830;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0ab;
+    --text-muted: #6b7280;
+    --accent: #6b83f2;
+    --accent-hover: #5a72e0;
+    --accent-light: rgba(107, 131, 242, 0.12);
+    --accent-glow: rgba(107, 131, 242, 0.3);
+    --search-bg: #1e2128;
 }
 
 /* ===== 리셋 ===== */
@@ -145,6 +143,33 @@ body {
 .app-title span {
     color: var(--accent);
 }
+
+/* 테마 토글 버튼 */
+.theme-toggle {
+    position: absolute;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--card-bg);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.theme-toggle .icon-moon { display: none; }
+[data-theme='dark'] .theme-toggle .icon-sun { display: none; }
+[data-theme='dark'] .theme-toggle .icon-moon { display: block; }
 
 /* ===== 검색 영역 (sticky) ===== */
 .search-area {
@@ -381,11 +406,9 @@ body {
     color: #ef4444;
 }
 
-@media (prefers-color-scheme: dark) {
-    .dict-close:hover {
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-    }
+[data-theme='dark'] .dict-close:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
 }
 
 /* 사전 콘텐츠 */
