@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 app = FastAPI(title="JAKO Dict API")
 
 BASE_DIR = Path(__file__).parent
-RESOURCES_DIR = BASE_DIR / "resources"
+RESOURCES_DIR = BASE_DIR / "resources/sqlite"
 
 # --- Database helpers ---
 
